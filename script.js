@@ -14,14 +14,38 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 });
 
 
-// Update form submit handler
+// // Update form submit handler
+// document.getElementById('contact-form').addEventListener('submit', function(event) {
+//   event.preventDefault();
+
+//   emailjs.sendForm('service_dye423f', 'template_7oi145c', this)
+//     .then(function() {
+//       alert('Message sent successfully!');
+//     }, function(error) {
+//       alert('Failed to send message: ' + JSON.stringify(error));
+//     });
+// });
+
+// Handle form submission
 document.getElementById('contact-form').addEventListener('submit', function(event) {
   event.preventDefault();
 
-  emailjs.sendForm('service_dye423f', 'template_7oi145c', this)
-    .then(function() {
-      alert('Message sent successfully!');
+  // Get form data
+  const templateParams = {
+    name: document.querySelector('[name="name"]').value,
+    email: document.querySelector('[name="email"]').value,
+    message: document.querySelector('[name="message"]').value
+  };
+
+  // Send email
+  emailjs.send('service_dye423f', 'template_7oi145c', templateParams)
+    .then(function(response) {
+      alert('Thank you! Your message has been sent.');
+      document.getElementById('contact-form').reset();
     }, function(error) {
-      alert('Failed to send message: ' + JSON.stringify(error));
+      alert('Oops! Something went wrong. Please try again.');
+      console.error('EmailJS error:', error);
     });
 });
+
+
